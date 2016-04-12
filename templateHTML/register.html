@@ -1,3 +1,78 @@
 {{define "registerPage"}}
-<h1> REGISTER </h1>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title> CSLABS Library </title>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+
+<body style="margin-top:5%">
+
+<nav class="navbar navbar-inverse navbar-fixed-top ">
+ <div class="navbar-header">
+   <label class="navbar-brand">CSLabs Library</label>
+      <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li ><a href="/Home">Home</a></li>
+        <li ><a href="/Search">Search</a></li>
+        <li><a href="/Contact">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav pull-right">
+        <li><a href="/Logout">Logout</a></li>
+      </ul>
+    </div>
+</nav>
+
+<div class="container">
+  <div class="row" >
+    <form method="post" action="/Login" class="form-horizontal col-md-offset-2" style="margin-top:10%">
+      <div class="form-group form-group-lg row">
+        <label class="col-md-2 control-label" for="First Name">First Name:</label>
+        <div class="col-md-8">
+        <input type="text" class="form-control" id="FirstName" placeholder="First Name">
+        </div>
+      </div>
+      <div class="form-group form-group-lg row">
+        <label class="col-md-2 control-label" for="Last Name">Last Name:</label>
+        <div class="col-md-8">
+        <input type="text" class="form-control" id="LastName" placeholder="Last Name">
+        </div>
+      </div>
+      <div class="form-group form-group-lg row">
+        <label for="Username" class="col-md-2 control-label">Username:</label>
+        <div class="col-md-8">
+          <input type="text" class="form-control" id="Username" name="Username" placeholder="Enter Username">
+        </div>
+      </div>
+      <div class="form-group form-group-lg row">
+        <label for="Email" class="col-md-2 control-label">Email:</label>
+        <div class="col-md-8">
+          <input type="email" class="form-control" id="Email" name="Email" placeholder="Enter Email">
+        </div>
+      </div>
+      <div class="form-group form-group-lg row">
+        <label for="Password" class="col-md-2 control-label">Password:</label>
+        <div class="col-md-8">
+          <input type="password" class="form-control" id="Password" name="Password" placeholder="Enter Password">
+        </div>
+      </div>
+      <div class="form-group form-group-lg">
+        <div class="col-md-offset-8">
+          <button type="submit" class="btn btn-default btn-lg"> Register</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+{{ template "footer" }}
+</html>
 {{end}}

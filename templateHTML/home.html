@@ -1,22 +1,64 @@
 {{define "homePage"}}
 <!doctype html>
-<html lang="en">
 <head>
   <meta charset="utf-8">
   <title> CSLABS Library </title>
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+   <style>
+   body{
+   width: 100%;
+  }
+   </style>
 </head>
 
-<body>
-  {{template "navigation"}}
-  <form method="post">
-    <label for="Firstname">First Name </label>
-    <input type="text" id="firstname" name="first">
-    <label for="Lastname">Last Name</label>
-    <input type="text" id="lastname" name="last">
-    <input type="submit">
-  </form>
-  <h1>{{.FirstName}} {{.LastName}}</h1>
+
+<body style="margin-top:5%">
+
+<nav class="navbar navbar-inverse navbar-fixed-top ">
+ <div class="navbar-header">
+   <label class="navbar-brand">CSLabs Library</label>
+      <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/Home">Home</a></li>
+        <li><a href="/Search">Search</a></li>
+        <li><a href="/Contact">Contact</a></li>
+      </ul>
+    </div>
+</nav>
+
+<div class="container">
+  <div class="row">
+    <form method="post" action="/Login" class="form-horizontal col-md-offset-2"  style="margin-top:15%">
+      <div class="form-group form-group-lg ">
+
+        <label for="Username" class="col-sm-2 control-label">Username:</label>
+        <div class="col-sm-7">
+          <input type="text" class="form-control" id="Username" name="Username" placeholder="Enter Username">
+        </div>
+      </div>
+      <div class="form-group form-group-lg ">
+        <label for="Password" class="col-sm-2 control-label">Password:</label>
+        <div class="col-sm-7">
+          <input type="password" class="form-control" id="Password" name="Password" placeholder="Enter Password">
+        </div>
+      </div>
+        <div class="col-md-offset-8 ">
+          <button type="submit" class="btn btn-default btn-lg"> Login</button>
+        </div>
+    </form>
+    <div class="col-md-offset-6" style="margin-top:5%">
+        <b>If you do not have an account</b>
+        <a class="btn btn-default btn-lg" href="/Register">Register</a>
+    </div>
+  </div>
 </body>
+{{ template "footer" }}
 </html>
 {{end}}

@@ -1,0 +1,21 @@
+DROP TABLE IF EXISTS books CASCADE;
+CREATE TABLE books (
+    id INT AUTO_INCREMENT,
+    title VARCHAR(50) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    isbn VARCHAR(30) UNIQUE NOT NULL,
+    cover_image VARCHAR(255) NOT NULL,
+    available SMALLINT(4) NOT NULL,
+    quantity SMALLINT(4) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS users CASCADE;
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(30) NOT NULL,
+    username VARCHAR(20) NOT NULL,
+    firstname VARCHAR(30) NOT NULL,
+    lastname VARCHAR(30) NOT NULL,
+    password VARCHAR(30) NOT NULL
+);

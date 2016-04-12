@@ -4,7 +4,11 @@ import (
     "bytes"
     "encoding/base64"
     "fmt"
+
     "github.com/julienschmidt/httprouter"
+    "database/sql"
+    _ "github.com/go-sql-driver/mysql"
+
     "net/http"
     "log"
     //"os"
@@ -13,14 +17,15 @@ import (
 
 )
 
-var templates = template.Must(template.ParseGlob("/Users/Macri-man/goWorkSpace/src/github.com/Macri-man/LibraryManagement/templateHTML/home.html"))
+var templates = template.Must(template.ParseGlob("/Users/Macri-man/goWorkSpace/src/github.com/Macri-man/LibraryManagement/templateHTML/*"))
 
 /*
 type Person struct {
   FirstName string
   LastName string
 }
-
+*/
+/*
 type justFilesFilesystem struct {
     fs http.FileSystem
 }
@@ -40,8 +45,8 @@ type neuteredReaddirFile struct {
 func (f neuteredReaddirFile) Readdir(count int) ([]os.FileInfo, error) {
     return nil, nil
 }
-*/
 
+*/
 
 func BasicAuth(h httprouter.Handle, user, pass []byte) httprouter.Handle {
     return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -111,6 +116,55 @@ func Admin(res http.ResponseWriter, req *http.Request, _ httprouter.Params) {
     }
 }
 
+func Contact(res http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+    err := templates.ExecuteTemplate(res, "contactPage", nil)
+    if err != nil {
+        http.Error(res, err.Error(), http.StatusInternalServerError)
+        log.Fatalln(err)
+    }
+}
+
+func checkUser(username string, password string) (isValid bool) {
+  if username=="test" && password=="testing" {
+    return true
+  }
+  return false
+}
+
+func checkAdmin(username string, password string) (isValid bool) {
+  if username=="Admin" && password=="testing" {
+    return true
+  }
+  return false
+}
+
+
+func Login(res http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+
+  username := req.FormValue("Username")
+  password := req.FormValue("Password")
+
+  fmt.Printf("%s %s\n",username,password)
+  fmt.Println(username)
+    if username != "" && password != "" {
+      if checkUser(username,password) {
+        http.Redirect(res, req, "/Search", http.StatusFound)
+      }else if checkAdmin(username,password) {
+        http.Redirect(res,req,"/Admin",http.StatusFound)
+      }else{
+        http.Redirect(res,req,"/Home",http.StatusFound)
+      }
+      fmt.Printf("%s %s\n",username,password)
+      fmt.Println(username)
+    }else{
+      http.Redirect(res,req,"/Home",http.StatusFound)
+    }
+}
+
+func Logout(res http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+    http.Redirect(res,req,"/Home",http.StatusFound)
+}
+
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     fmt.Fprint(w, "Not protected!\n")
 }
@@ -126,11 +180,20 @@ func main() {
     pass := []byte("secret!")
 
     router := httprouter.New()
-    router.GET("/", Index)
+    //router.GET("/", Index)
     router.GET("/Home", Home)
+
+    router.POST("/Login", Login)
+    router.GET("/Logout", Logout)
+
     router.GET("/Register", Register)
     router.GET("/Search", Search)
+    router.GET("/Profile", Profile)
     router.GET("/Admin", Admin)
+    router.GET("/Contact", Contact)
+
+    //router.POST("/checkout",checkout)
+    //router.POST("/checkin",checkout)
 /*
     router.GET("/isbn", GetAllByISBN)
     router.GET("/isbn/:isbn", GetByISBN)
@@ -158,6 +221,16 @@ func main() {
 */
     router.GET("/protected/", BasicAuth(Protected, user, pass))
 
+    //router.NotFound = http.FileServer(http.Dir("public"))
+    //router.NotFound = http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("/*filepath"))))
+
+    //router.ServeFiles("/css", http.Dir("/var/www"))
+
+    //fs := justFilesFilesystem(http.Dir("css/"))
+    //http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir(fs))))
+    http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css/"))))
+
+    fmt.Printf("Serving on LocalHost Port 8080\n")
     log.Fatal(http.ListenAndServe(":8080", router))
 }
 
@@ -178,13 +251,13 @@ func main() {
   }
 
   http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request){
-    fName := req.FormValue("first")
-    lName := req.FormValue("last")
-    fmt.Println("fName: ",fName)
-    fmt.Println("[]byte(fName): ", []byte(fName))
-    fmt.Println("typeOf: ", reflect.TypeOf(fName))
+    username := req.FormValue("first")
+    password := req.FormValue("last")
+    fmt.Println("username: ",username)
+    fmt.Println("[]byte(username): ", []byte(username))
+    fmt.Println("typeOf: ", reflect.TypeOf(username))
 
-    err = tpl.Execute(res, Person{fName,lName})
+    err = tpl.Execute(res, Person{username,password})
     if err!=nil{
       http.Error(res,err.Error(), 500)
       log.Fatalln(err)
