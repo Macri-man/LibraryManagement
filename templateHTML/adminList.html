@@ -1,0 +1,121 @@
+{{define "adminList"}}
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <title> CSLABS Library </title>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+   <style>
+   body{
+   width: 100%;
+   margin-bottom: 120px;
+
+}
+td,th{
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+.table > tbody > tr > td {
+     vertical-align: middle;
+     text-align: center;
+}
+
+   </style>
+</head>
+<body style="margin-top:5%">
+<nav class="navbar navbar-inverse navbar-fixed-top ">
+ <div class="navbar-header">
+   <label class="navbar-brand">CSLabs Library</label>
+      <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li ><a href="/Home">Home</a></li>
+      </ul>
+      <ul class="nav navbar-nav pull-right">
+        <li><a href="/Admin">BACK</a></li>
+      </ul>
+    </div>
+</nav>
+
+<div class="container" style="margin-top:5%">
+  <div class="row">
+    <form method="POST" action="ADD" class="form-horizontal  col-sm-offset-2">
+      <div class="form-group form-group-sm row">
+        <label for="AddBook" class="col-sm-2 control-label">Add Book:</label>
+        <div class="col-md-8">
+          <div class="input-group">
+          <input type="text" class="form-control input-sm" id="ADDBOOKISBN" name="ADDBOOKISBN" placeholder="Enter Book's ISBN">
+          <span class="input-group-btn">
+              <button class="btn btn-default btn-sm" style="width:100%" type="submit">ADD</button>
+          </span>
+        </div>
+      </div>
+      </div>
+    </form>
+    <form method="POST" action="DELETE" class="form-horizontal  col-sm-offset-2">
+      <div class="form-group form-group-sm row">
+        <label for="DeleteBook" class="col-md-2 control-label">Delete Book:</label>
+        <div class="col-md-8">
+          <div class="input-group">
+          <input type="text" class="form-control input-sm" id="DELETEBOOKISBN" name="DELETEBOOKISBN" placeholder="Enter Book's ISBN">
+          <span class="input-group-btn">
+              <button class="btn btn-default btn-sm" type="submit">DELETE</button>
+          </span>
+        </div>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="divider"></div>
+    <div class = "container table-responsive">
+      <table class = "table table-hover table-bordered table-striped">
+        <caption style="text-align:center">List of Books in Library</caption>
+        <tr> <th>ISBN</th><th>Cover Image</th><th>Title</th><th>Author</th> <th>Description</th><th>Availability</th><th>Quantity</th><th>Categories</th></tr>
+          {{range $index,$element := .}}
+           <tbody>
+        <tr>
+          <td>{{$element.Isbn}}</td>
+          <td><img src={{$element.Cover_image}} class="img-thumbnail"{{$element.Cover_image}} > </td>
+          <td>{{$element.Title}} </td>
+          <td>{{$element.Author}} </td>
+          <td>{{$element.Description}}</td>
+          <td>{{$element.Available}} </td>
+          <td>{{$element.Quantity}}</td>
+          <td> {{$element.Categories}}</td>
+          </tr>
+
+
+<!--
+      <label class=""> {{$index}} </label>
+      <label class=""> <img src={{$element.Cover_image}} class="img-thumbnail"{{$element.Cover_image}} > </label>
+      <label class=""> Title: {{$element.Title}} </label>
+      <label class=""> Description: {{$element.Description}} </label>
+      <label class=""> Availibility: {{$element.Available}} </label>
+      <label class=""> Quantity: {{$element.Quantity}} </label>
+      <label class=""> Categories: {{$element.Categories}} </label>
+    -->
+    {{end}}
+  </tbody>
+    </table>
+  </div>
+</body>
+<footer style="background-color:#D3D3D3;width:100%;height:80px;position:fixed;bottom:0;left:0;">
+  <div class="container-fluid">
+    <div class="row" style="margin-top:20px">
+      <div class=" col-sm-offset-1">Clarkson Open Source Institute <br>
+        <small>Clarkson University | Science Center 336</small>
+      </div>
+    </div>
+  </div>
+</footer>
+</html>
+{{end}}
